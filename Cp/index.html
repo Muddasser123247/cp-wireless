@@ -74,25 +74,28 @@
  
 
   <!-- HEADER -->
- <header>
-  <div class="container nav">
+  <header>
+    <div class="container nav">
       <div class="logo">
-          <div class="logo-icon">CP</div>
-          <span>CP (College Park) Wireless</span>
+        <div class="logo-icon">CP</div>
+        <span>CP (College Park) Wireless</span>
       </div>
 
-      <nav>
-          <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#products">Products</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li><a href="#location">Location</a></li>
-          </ul>
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Products</a></li>
+          <!--<li><a href="#featured">Featured Phones</a></li>-->
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#location">Location</a></li>
+        </ul>
       </nav>
 
-      <button class="nav-cta">Contact Us</button>
-  </div>
-</header>
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+        Contact Us
+      </button>
+    </div>
+  </header>
 
    <!-- ===== FULL-WIDTH PROMO HERO (slides from backend later) ===== -->
   <section class="promo-hero" id="promo-hero">
@@ -229,7 +232,7 @@
           <article class="service-card">
             <h3>Mobile  &amp; Accessories</h3>
             <p>
-              Find the perfect accessories for your device — stylish cases, fast-charging adapters, durable cables, earbuds, screen protection, and more. Quality you can trust at great prices.
+              Find the perfect accessories for your device — stylish cases, fast-charging adapters, durable cables, earbuds, screen protection, and more. Quality you can trust at great prices..
             </p>
           </article>
 
@@ -427,4 +430,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
