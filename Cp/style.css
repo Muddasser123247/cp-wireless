@@ -35,10 +35,11 @@ a {
 }
 
 header .container {
-  width: 100%;
-  max-width: 100%;
-  padding: 3 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
 
 /* === HEADER === */
 header {
@@ -825,8 +826,15 @@ form textarea {
 .hours-list .row span:last-child {
   width: 55%;
   text-align: left;
-  white-space: nowrap;
 }
+
+/* Keep times on one line only on larger screens */
+@media (min-width: 601px) {
+  .hours-list .row span:last-child {
+    white-space: nowrap;
+  }
+}
+
 
 /* === FOOTER === */
 footer {
@@ -880,34 +888,42 @@ footer {
     height: 300px;
   }
 }
-
 @media (max-width: 700px) {
-  nav ul {
-    display: none;
-  }
-  .nav-cta {
-    display: none;
-  }
-  .address-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .address-left,
-  .hours-right {
+
+  /* Put nav and button together in one row */
+  .nav-row {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;  /* prevent button dropping */
   }
-  .hours-title {
-    text-align: left;
+
+  nav ul {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
   }
-  .hours-list .row {
-    justify-content: flex-start;
+
+  .nav-cta {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: .45rem 1rem;
+    font-size: .85rem;
   }
-  .hours-list .row span:first-child {
-    width: auto;
-    text-align: left;
-    padding-right: 6px;
+
+  /* Logo stays at top */
+  header .container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: .5rem;
   }
 }
+
+
+
 
 @media (max-width: 500px) {
   .form-row {
@@ -931,4 +947,95 @@ footer {
   max-width: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
+}
+@media (max-width: 600px) {
+  .product-track {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  .product-card {
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+/* === ADDRESS + HOURS — MOBILE FIX === */
+@media (max-width: 600px) {
+  .address-wrapper {
+    flex-direction: column;       /* stack instead of side-by-side */
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .address-left,
+  .hours-right {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hours-title {
+    text-align: left;
+    margin-bottom: 0.3rem;
+  }
+
+  .hours-list .row {
+    justify-content: flex-start;
+  }
+
+  .hours-list .row span:first-child {
+    width: auto;
+    text-align: left;
+    padding-right: 6px;
+  }
+
+  .hours-list .row span:last-child {
+    width: auto;          /* let it expand naturally */
+  }
+}
+/* === MOBILE NAV: MENU + BUTTON ON SAME LINE === */
+@media (max-width: 700px) {
+
+  /* Keeps logo on top */
+  header .container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: .4rem;
+    padding: .7rem 0;
+  }
+
+  /* Wrap menu + button into one row */
+  .nav-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap; /* allows wrapping into 2 lines */
+    max-width: 100%;
+  }
+
+  nav ul {
+    display: flex;
+    gap: .7rem;        /* smaller spacing */
+    flex-wrap: wrap;   /* allow menu to shrink */
+  }
+
+  nav ul li a {
+    font-size: .85rem;  /* slightly smaller text */
+    white-space: nowrap;
+  }
+
+  .nav-cta {
+    padding: .45rem 1.1rem;
+    font-size: .82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
