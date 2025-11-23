@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CP (College Park) Wireless | Phones & Accessories</title>
+
+  <!-- SEO & Google Ads-friendly meta (NO repair / tech support) -->
+  <meta name="description" content="CP (College Park) Wireless – Buy and sell new or used smartphones, and explore a wide range of quality phone accessories at College Park, Toronto. No technical support or repair services provided." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Preload & load font fast -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- LocalBusiness / MobilePhoneStore Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobilePhoneStore",
+    "name": "CP (College Park) Wireless",
+    "image": "https://yourdomain.com/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Next to Dollarama, 777 Bay St.",
+      "addressLocality": "Toronto",
+      "addressRegion": "ON",
+      "postalCode": "M7A 1S5",
+      "addressCountry": "CA"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 43.6596,
+      "longitude": -79.3830
+    },
+    "telephone": "+1-647-326-3848",
+    "url": "https://yourdomain.com",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Friday"],
+        "opens": "10:00",
+        "closes": "20:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Thursday",
+        "opens": "10:00",
+        "closes": "20:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "10:00",
+        "closes": "19:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Sunday",
+        "opens": "12:00",
+        "closes": "19:00"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+ 
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-icon">CP</div>
+        <span>CP (College Park) Wireless</span>
+      </div>
+
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="#top">Home</a></li>
+          <li><a href="#services">Products</a></li>
+          <!--<li><a href="#featured">Featured Phones</a></li>-->
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#location">Location</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+        Contact Us
+      </button>
+    </div>
+  </header>
+
+   <!-- ===== FULL-WIDTH PROMO HERO (slides from backend later) ===== -->
+  <section class="promo-hero" id="promo-hero">
+    <div class="promo-hero-track" id="promoHeroTrack">
+      <!-- JS will inject .promo-slide items into this container -->
+      <div class="promo-slides" id="promoSlides"></div>
+    </div>
+
+    <!-- Controls & dots -->
+    <div class="promo-controls">
+      <button type="button" class="promo-arrow" id="promoPrev" aria-label="Previous promotion">‹</button>
+      <button type="button" class="promo-arrow" id="promoNext" aria-label="Next promotion">›</button>
+    </div>
+
+    <div class="promo-dots" id="promoDots" aria-label="Promotion navigation"></div>
+  </section>
+
+  <!-- HERO -->
+  <main id="home">
+    <section class="hero">
+      <div class="hero-full hero-grid">
+        <!-- Left -->
+        <div>
+          <div class="hero-tag">
+            <span class="badge-dot"></span>
+            Trusted Phone Store in College Park
+          </div>
+
+          <h1>
+            Smartphones &amp; Accessories
+            <span class="highlight">with clear, honest pricing.</span>
+          </h1>
+
+          <p>
+            CP (College Park) Wireless buys and sells smartphones and offers a wide range of accessories in the heart of downtown Toronto. No hidden fees, no confusing offers.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="btn-primary" onclick="document.getElementById('featured').scrollIntoView({behavior:'smooth'})">
+              View Featured Phones
+            </button>
+
+            <a href="#location" class="btn-secondary-link">
+              View Store Location →
+            </a>
+          </div>
+
+          <div class="hero-meta">
+            <div>
+              <strong>Central Location</strong><br />
+              777 Bay St, Next to Dollarama.
+            </div>
+            <div>
+              <strong>Verified Devices</strong><br />
+              Clear condition and fair evaluation.
+            </div>
+            <div>
+              <strong>Wide Accessories Range</strong><br />
+              Cases, chargers, cables, and more.
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Offer slider -->
+        <div class="hero-card" aria-label="Highlights">
+          <div class="hero-card-header">
+            <h2>Today at CP Wireless</h2>
+            <span class="hero-card-badge">Honest Deals</span>
+          </div>
+
+          <div class="slider" id="offer-slider">
+            <div class="slide-track" id="slide-track">
+              <div class="slide">
+                <div class="slide-text">
+                  <h3>Buy Smartphones</h3>
+                  <p>Browse a rotating selection of new and pre-owned devices with clear condition grading.</p>
+                  <span class="pill">Transparent listings • No surprises</span>
+                </div>
+                <div class="slide-image">
+                  <div class="slide-image-placeholder" aria-hidden="true"></div>
+                </div>
+              </div>
+
+              <div class="slide">
+                <div class="slide-text">
+                  <h3>Sell or Trade-In</h3>
+                  <p>Bring your phone for a straightforward evaluation and fair trade-in offer.</p>
+                  <span class="pill">Simple process • Fair value</span>
+                </div>
+                <div class="slide-image">
+                  <div class="slide-image-placeholder" aria-hidden="true"></div>
+                </div>
+              </div>
+
+              <div class="slide">
+                <div class="slide-text">
+                  <h3>Accessories Wall</h3>
+                  <p>Find cases, cables, chargers, and more that match and protect your device.</p>
+                  <span class="pill">Quality accessories • Clear labels</span>
+                </div>
+                <div class="slide-image">
+                  <div class="slide-image-placeholder" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="slider-dots" aria-label="Slide navigation">
+              <button type="button" class="active" data-slide="0"></button>
+              <button type="button" data-slide="1"></button>
+              <button type="button" data-slide="2"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS (SAFE SERVICES) -->
+    <section class="section section-full" id="services">
+
+      <div class="container">
+        <div class="section-header">
+          <h2>What We Offer</h2>
+          <p>Wide range of smartphones, laptops, game consoles and accessories – at fair, transparent prices.</p>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card">
+            <h3>Smartphones for Sale</h3>
+            <p>
+              Browse new and pre-owned smartphones with clearly stated condition and specifications.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3>Mobile  &amp; Accessories</h3>
+            <p>
+              Find the perfect accessories for your device — stylish cases, fast-charging adapters, durable cables, earbuds, screen protection, and more. Quality you can trust at great prices.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3>Gaming PC and laptops</h3>
+            <p>
+            Custom-built gaming PCs — from budget-friendly to high-performance builds — plus laptops from top brands for gaming, school, and everyday use.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3>Game consoles</h3>
+            <p>
+              Game consoles from major brands(PS5 ,Xbox and Nintendo switch), available with clear condition and verified functionality.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT SLIDER -->
+    <section class="product-slider section-full" id="featured">
+      <div class="container">
+        <!--<h2>Featured Phones</h2>
+        <p>A selection of smartphones commonly available at our store. Stock may vary.</p> -->
+
+        <div class="product-slider-wrapper">
+          <div class="product-track">
+            <!-- Card 1 -->
+            <article class="product-card">
+              <picture>
+                <img src="images/1.jpeg" loading="lazy" alt="smartphones" width="360" height="300">
+              </picture>
+              <h3>Smartphones for Sale</h3>
+              
+            </article>
+
+            <!-- Card 2 -->
+            <article class="product-card">
+              <picture>
+                <img src="images/14.jpg" loading="lazy" alt="Mobile Accessories" width="360" height="300">
+              </picture>
+              <h3>Mobile Accessories</h3>
+              
+            </article>
+
+            <!-- Card 3 -->
+            <article class="product-card">
+              <picture>
+                
+                <img src="images/12.jpg" loading="lazy" alt="Gaming PC and laptops" width="360" height="300">
+              </picture>
+              <h3>Gaming PC and laptops</h3>
+              
+            </article>
+            <!-- Card 4 -->
+            
+            <article class="product-card">
+              <picture>
+                <img src="images/10.png" loading="lazy" alt="Game consoles" width="360" height="300">
+              </picture>
+              <h3>Game consoles</h3>
+              
+            </article>
+          </div>
+        </div>
+
+        <!--<div class="product-nav">
+          <button type="button" id="prevProduct">‹ Prev</button>
+          <button type="button" id="nextProduct">Next ›</button>
+        </div>-->
+      </div>
+    </section>
+
+    <!-- CONTACT & MAP -->
+    <section class="section section-full" id="contact">
+
+      <div class="container contact-grid">
+        <!-- Contact Form -->
+        <div class="contact-card">
+          <h3>Contact CP (College Park) Wireless</h3>
+          <p>
+            Have a question about product availability, pricing, or trade-in options? Send us a message and we’ll get back to you during business hours.
+          </p>
+
+          <form id="contactForm" action="#" method="post" novalidate>
+            <div class="form-row">
+              <div>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your name" />
+              </div>
+
+              <div>
+                <label for="phoneInput">Phone Number (optional)</label>
+                <input type="tel" id="phoneInput" name="phone" placeholder="e.g. (647) 000-0000" />
+              </div>
+            </div>
+
+            <div class="form-row" style="margin-top: 0.75rem;">
+              <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com" />
+              </div>
+
+              <div>
+                <label for="topic">Inquiry Topic</label>
+                <input type="text" id="topic" name="topic" placeholder="Phone model, accessories, trade-in, etc." />
+              </div>
+            </div>
+
+            <div style="margin-top: 0.75rem;">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Write your question here" required></textarea>
+            </div>
+
+            <div class="form-footer">
+              <p class="form-note">
+                Your details are used only to reply to your inquiry. We do not share them with third parties.
+              </p>
+              <button type="submit" class="btn-primary">
+                Send Message
+              </button>
+            </div>
+
+            <div class="form-success" id="formSuccess">
+              Thank you! Your message has been sent. We’ll get back to you during store hours.
+            </div>
+            <br>
+            <br>
+          </form>
+        </div>
+
+        <!-- Map + Address / Hours -->
+        <div class="map-card" id="location">
+          <div class="map-header">
+            <span class="label">Find Us</span>
+            <span class="status">Open during listed hours</span>
+          </div>
+          <div class="map-wrapper">
+            <iframe
+              title="CP (College Park) Wireless Location"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2887.676328040657!2d-79.3857!3d43.6607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b34c8fce2c7c1%3A0x0000000000000000!2s777%20Bay%20St%2C%20Toronto%2C%20ON%20M7A%201S5!5e0!3m2!1sen!2sca!4v0000000000000">
+            </iframe>
+          </div>
+
+          <div class="address-wrapper">
+            <div class="address-left">
+              <strong>Store Address</strong><br>
+              CP (College Park) Wireless<br>
+              777 Bay St., Toronto, ON M7A 1S5<br>
+              <span>Next to Dollarama</span><br><br>
+
+              <strong>Phone</strong><br>
+              (647) 326-3848
+            </div>
+
+            <div class="hours-right">
+              <div class="hours-title">Working Hours</div>
+              <div class="hours-list">
+                <div class="row"><span>Monday:</span> <span>10 a.m. – 8 p.m.</span></div>
+                <div class="row"><span>Tuesday:</span> <span>10 a.m. – 8 p.m.</span></div>
+                <div class="row"><span>Wednesday:</span> <span>10 a.m. – 8 p.m.</span></div>
+                <div class="row"><span>Thursday:</span> <span>10 a.m. – 8 p.m.</span></div>
+                <div class="row"><span>Friday:</span> <span>10 a.m. – 8 p.m.</span></div>
+                <div class="row"><span>Saturday:</span> <span>10 a.m. – 7 p.m.</span></div>
+                <div class="row"><span>Sunday:</span> <span>12 p.m. – 7 p.m.</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        © <span id="year"></span> CP (College Park) Wireless. All rights reserved.
+        <br>This website does not provide technical support or repair services.
+      </div>
+      <div class="footer-links">
+        <a href="#!" aria-label="Privacy Policy">Privacy Policy</a>
+        <a href="#!" aria-label="Terms &amp; Conditions">Terms &amp; Conditions</a>
+        <a href="#contact" aria-label="Contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JS -->
+  <script src="script.js"></script>
+</body>
+</html>
