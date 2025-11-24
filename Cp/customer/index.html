@@ -542,7 +542,7 @@
     </main>
     <footer id="footer-container"></footer>
      <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ6P0AaQ_N_MXI_B7KS3fEaydTGRv8jLZ715UaTm0y0Q9_MrklWLsXbNMWnAZUnHLq/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJ1q-0047ZDVcT-bSdFQjhnhEYrBBTzATdOOGPDzZZZcUTVkPeWpUGESz7dHsjm9DL/exec";
 
 // Auto-fill date on page load
 document.addEventListener("DOMContentLoaded", () => {
@@ -620,10 +620,15 @@ function showToast(message) {
 
 // 🔍 FETCH EXISTING CUSTOMER DATA USING POST (no CORS issues)
 async function fetchCustomer(searchValue) {
-  if (!searchValue || searchValue.length < 2) return; // avoid spamming server
+  if (!searchValue || searchValue.length < 2) {
+    console.log("Search ignored (too short):", searchValue);
+    return;
+  }
+
+  console.log("Searching for:", searchValue);
 
   const payload = {
-    mode: "search",  // 🔑 tells Apps Script this is SEARCH
+    mode: "search",   // tells Apps Script to use search mode
     query: searchValue
   };
 
@@ -633,17 +638,31 @@ async function fetchCustomer(searchValue) {
       body: JSON.stringify(payload)
     });
 
-    const json = await res.json();
-    if (json.status !== "SUCCESS" || !json.results || json.results.length === 0) {
+    let json;
+    try {
+      json = await res.json();
+    } catch (err) {
+      console.error("❌ Failed to parse JSON (backend returned invalid output):", err);
+      console.log("RAW RESPONSE:", await res.text());
+      return;
+    }
+
+    console.log("Search response:", json);
+
+    if (json.status !== "SUCCESS") {
+      console.warn("❌ Search failed:", json);
+      return;
+    }
+
+    if (!json.results || json.results.length === 0) {
+      console.log("ℹ No matching customers found.");
       return;
     }
 
     const rows = json.results;
+    const latest = rows[rows.length - 1]; // pick last entry
 
-    // Latest repair for autofill
-    const latest = rows[rows.length - 1];
-
-    // Columns (from sheet):
+    // Columns from Sheet:
     // 0: serverTimestamp
     // 1: ticket_number
     // 2: status
@@ -655,33 +674,35 @@ async function fetchCustomer(searchValue) {
     // 8: description
     // 9: Price
 
-    document.getElementById("customer_name").value = latest[3];
-    document.getElementById("phone_number").value = latest[4];
-    document.getElementById("email").value = latest[5];
+    // Auto-fill customer info
+    document.getElementById("customer_name").value = latest[3] || "";
+    document.getElementById("phone_number").value = latest[4] || "";
+    document.getElementById("email").value = latest[5] || "";
 
-    // PREVIOUS REPAIRS TABLE
+    // Fill "Previous Repairs" table
     const tbody = document.querySelector("#previousRepairsTable tbody");
     if (!tbody) return;
 
-    tbody.innerHTML = "";
+    tbody.innerHTML = ""; // clear previous entries
 
-    rows.forEach(row => {
+    rows.forEach(r => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${row[1]}</td>
-        <td>${row[9]}</td>
-        <td>${row[7]}</td>
-        <td>${row[8]}</td>
-        <td>${row[2]}</td>
-        <td>${row[0]}</td>
+        <td>${r[1] || ""}</td>
+        <td>${r[9] || ""}</td>
+        <td>${r[7] || ""}</td>
+        <td>${r[8] || ""}</td>
+        <td>${r[2] || ""}</td>
+        <td>${r[0] || ""}</td>
       `;
       tbody.appendChild(tr);
     });
 
   } catch (err) {
-    console.error("Fetch error:", err);
+    console.error("❌ fetchCustomer() error:", err);
   }
 }
+
 </script>
 
 
@@ -689,6 +710,7 @@ async function fetchCustomer(searchValue) {
 </body>
 
 </html>
+
 
 
 
