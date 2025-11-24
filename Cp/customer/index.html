@@ -541,15 +541,16 @@
         <div id="toast" class="toast"></div>
     </main>
     <footer id="footer-container"></footer>
-    <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzP-3DXA1I2aXZxopJG5qsW7UDN9BFGur6P9Z_CNnXk8GoHtK70L7IZs8SlRLt7Z9h/exec";
+     <script>
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylvZNZ_WC3mnvKydTpVQUEtvX4j7xlndCV2TVlvzff0IvZ51uv4EoiWAdsdgmglUfE/exec";
 
 // Auto-fill date on page load
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("datetime").value = new Date().toLocaleString();
+  const dt = document.getElementById("datetime");
+  if (dt) dt.value = new Date().toLocaleString();
 });
 
-// Auto lookup customer on typing
+// Auto lookup customer on typing (name or phone)
 document.getElementById("customer_name").addEventListener("input", e => {
   fetchCustomer(e.target.value);
 });
@@ -562,6 +563,7 @@ document.getElementById("repairForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
   const payload = {
+    mode: "save", // 🔑 tells Apps Script this is SAVE, not SEARCH
     datetime: document.getElementById("datetime").value,
     ticket_number: document.getElementById("ticket_number").value || null,
     status: document.getElementById("status").value,
@@ -582,15 +584,15 @@ document.getElementById("repairForm").addEventListener("submit", function (e) {
     .then(res => res.json())
     .then(data => {
       if (data.status === "SUCCESS") {
-
         // Show ticket number from server
         document.getElementById("ticket_number").value = data.ticket_number;
         showToast(`Ticket saved! #${data.ticket_number}`);
 
-        // RESET FORM AFTER 1 SECOND
+        // ✅ CLEAR FORM AFTER 1 SECOND
         setTimeout(() => {
           document.getElementById("repairForm").reset();
-          document.getElementById("previousRepairsTable").querySelector("tbody").innerHTML = "";
+          const tbody = document.querySelector("#previousRepairsTable tbody");
+          if (tbody) tbody.innerHTML = "";
           document.getElementById("datetime").value = new Date().toLocaleString();
         }, 1000);
 
@@ -598,30 +600,60 @@ document.getElementById("repairForm").addEventListener("submit", function (e) {
         showToast("Error: " + (data.message || "Unknown error"));
       }
     })
-    .catch(err => showToast("Error sending data: " + err));
+    .catch(err => {
+      console.error(err);
+      showToast("Error sending data: " + err);
+    });
 });
 
-// Toast popup
+// Toast
 function showToast(message) {
   const toast = document.getElementById("toast");
+  if (!toast) {
+    alert(message);
+    return;
+  }
   toast.textContent = message;
   toast.classList.add("show");
   setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-// FETCH EXISTING CUSTOMER DATA
+// 🔍 FETCH EXISTING CUSTOMER DATA USING POST (no CORS issues)
 async function fetchCustomer(searchValue) {
-  if (!searchValue) return;
+  if (!searchValue || searchValue.length < 2) return; // avoid spamming server
 
-  const url = GOOGLE_SCRIPT_URL + "?query=" + encodeURIComponent(searchValue);
+  const payload = {
+    mode: "search",  // 🔑 tells Apps Script this is SEARCH
+    query: searchValue
+  };
 
   try {
-    const res = await fetch(url);
-    const data = await res.json();
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
 
-    if (data.length === 0) return;
+    const json = await res.json();
+    if (json.status !== "SUCCESS" || !json.results || json.results.length === 0) {
+      return;
+    }
 
-    const latest = data[data.length - 1];
+    const rows = json.results;
+
+    // Latest repair for autofill
+    const latest = rows[rows.length - 1];
+
+    // Columns (from sheet):
+    // 0: serverTimestamp
+    // 1: ticket_number
+    // 2: status
+    // 3: customer_name
+    // 4: phone_number
+    // 5: email
+    // 6: repair_type
+    // 7: model
+    // 8: description
+    // 9: Price
 
     document.getElementById("customer_name").value = latest[3];
     document.getElementById("phone_number").value = latest[4];
@@ -629,9 +661,11 @@ async function fetchCustomer(searchValue) {
 
     // PREVIOUS REPAIRS TABLE
     const tbody = document.querySelector("#previousRepairsTable tbody");
+    if (!tbody) return;
+
     tbody.innerHTML = "";
 
-    data.forEach(row => {
+    rows.forEach(row => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${row[1]}</td>
@@ -645,15 +679,17 @@ async function fetchCustomer(searchValue) {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Fetch error:", err);
   }
 }
 </script>
+
 
    
 </body>
 
 </html>
+
 
 
 
