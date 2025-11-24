@@ -21,7 +21,8 @@
       --surface: #ffffff;
       --border: #e5e7eb;
       --border-strong: #d1d5db;
-      --accent: #0ea5e9;      /* blue accent */
+      --accent: #0ea5e9;
+      /* blue accent */
       --accent-soft: #e0f2fe;
       --accent-deep: #0369a1;
       --text-main: #0f172a;
@@ -127,7 +128,7 @@
       letter-spacing: -0.03em;
     }
 
-    .form-container > p.subtitle {
+    .form-container>p.subtitle {
       font-size: 0.95rem;
       color: var(--text-muted);
       margin-bottom: 1.5rem;
@@ -160,7 +161,7 @@
       opacity: 0.7;
     }
 
-    .card > * {
+    .card>* {
       position: relative;
       z-index: 1;
     }
@@ -243,7 +244,7 @@
     }
 
     /* Checkboxes layout */
-    .form-group > div {
+    .form-group>div {
       display: flex;
       align-items: center;
       gap: 0.4rem;
@@ -294,6 +295,54 @@
 
     #previousRepairsTable tbody tr:hover {
       background: #e0f2fe;
+    }
+
+    /* =====================
+       Pending Repairs Table (NEW)
+    ====================== */
+
+    #pendingRepairsTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    #pendingRepairsTable thead {
+      background: #eff6ff;
+    }
+
+    #pendingRepairsTable th,
+    #pendingRepairsTable td {
+      padding: 0.55rem 0.65rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #pendingRepairsTable th {
+      font-weight: 600;
+      color: #4b5563;
+      font-size: 0.78rem;
+    }
+
+    #pendingRepairsTable tbody tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    #pendingRepairsTable tbody tr:hover {
+      background: #e0f2fe;
+    }
+
+    #pendingRepairsTable select {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: #f9fafb;
     }
 
     /* =====================
@@ -406,318 +455,410 @@
         font-size: 1.35rem;
       }
     }
+
+    
   </style>
 </head>
 
-
 <body>
-    <header>
-        <div id="header-container"></div>
-        <a href="index.html" class="home-button">
-            <i class="fa fa-home"></i> Home
-        </a>
-    </header>
+  <header>
+    <div id="header-container"></div>
+    <a href="index.html" class="home-button">
+      <i class="fa fa-home"></i> Home
+    </a>
+  </header>
 
-    <main>
-        <div class="form-container">
-            <h2>New Customer</h2>
-            <form id="repairForm">
-                <div class="form-section">
-                    <div class="card">
-                        <h3>Ticket Information</h3>
-                        <div class="form-group">
-                            <label for="datetime">Date & Time</label>
-                            <input type="text" id="datetime" name="datetime" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="ticket_number">Ticket Number</label>
-                            <input type="text" id="ticket_number" name="ticket_number" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <input type="text" id="status" name="status" value="Open" readonly>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>Customer Details</h3>
-                        <div class="form-group">
-                            <label for="customer_name">Customer Name</label>
-                            <input type="text" id="customer_name" name="customer_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone_number">Phone Number</label>
-                            <input type="tel" id="phone_number" name="phone_number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <div class="card">
-                        <h3>Repair Details</h3>
-                        <div class="form-group">
-                            <label for="repair_type">Repair Type</label>
-                            <select id="repair_type" name="repair_type" required>
-                                <option value="Phone">Phone</option>
-                                <option value="Laptop">Laptop</option>
-                                <option value="Game Console">Game Console</option>
-                                <option value="ipad-tablet">ipad-tablet</option>
-                                <option value="Desktop">Desktop</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="model">Model</label>
-                            <input type="text" id="model" name="model" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea id="description" name="description" rows="4" required></textarea>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>Estimate</h3>
-                        <div class="form-group">
-                            <label for="Price">Price</label>
-                            <input type="text" id="Price" name="Price">
-                        </div>
-                        <!-- <div class="form-group">
-                            <label for="barcode">Inventory Barcode</label>
-                            <input type="text" id="barcode" name="barcode" placeholder="Scan Barcode (optional)">
-                        </div> -->
-                    <div class="form-section">
-                                <h3>Previous Repairs</h3>
-                                <table id="previousRepairsTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Ticket Number</th>
-                                            <th>Price</th>
-                                            <th>Model</th>
-                                            <th>Description</th>
-                                            <th>Notes</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Previous repairs will be populated here -->
-                                    </tbody>
-                                </table>
-                            
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <div class="card">
-                        <h3>Send Ticket</h3>
-                        <div class="form-group">
-                            <label>Send Ticket via:</label>
-                            <div>
-                                <input type="checkbox" id="sendEmail" name="sendEmail">
-                                <label for="sendEmail">Email</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="sendSms" name="sendSms">
-                                <label for="sendSms">Send SMS</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="sendPrint" name="sendPrint">
-                                <label for="sendPrint">Print</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
-            <p id="responseMessage"></p>
+  <main>
+    <div class="form-container">
+      <h2>New Customer</h2>
+      <form id="repairForm">
+        <div class="form-section">
+          <div class="card">
+            <h3>Ticket Information</h3>
+            <div class="form-group">
+              <label for="datetime">Date & Time</label>
+              <input type="text" id="datetime" name="datetime" readonly>
+            </div>
+            <div class="form-group">
+              <label for="ticket_number">Ticket Number</label>
+              <input type="text" id="ticket_number" name="ticket_number" readonly>
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <input type="text" id="status" name="status" value="Open" readonly>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Customer Details</h3>
+            <div class="form-group">
+              <label for="customer_name">Customer Name</label>
+              <input type="text" id="customer_name" name="customer_name" required>
+            </div>
+            <div class="form-group">
+              <label for="phone_number">Phone Number</label>
+              <input type="tel" id="phone_number" name="phone_number" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+          </div>
         </div>
 
-        <div id="toast" class="toast"></div>
-    </main>
-    <footer id="footer-container"></footer>
-      <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtO1SLgymJTfQ3Q53u4JuqO0cVcab3HTe5cNprnmhhptcYjdrv1du8RTqR1AXa5MxO/exec";
+        <div class="form-section">
+          <div class="card">
+            <h3>Repair Details</h3>
+            <div class="form-group">
+              <label for="repair_type">Repair Type</label>
+              <select id="repair_type" name="repair_type" required>
+                <option value="Phone">Phone</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Game Console">Game Console</option>
+                <option value="ipad-tablet">ipad-tablet</option>
+                <option value="Desktop">Desktop</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="model">Model</label>
+              <input type="text" id="model" name="model" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Estimate</h3>
+            <div class="form-group">
+              <label for="Price">Price</label>
+              <input type="text" id="Price" name="Price">
+            </div>
 
-// Auto-fill date on page load
-document.addEventListener("DOMContentLoaded", () => {
-  const dt = document.getElementById("datetime");
-  if (dt) dt.value = new Date().toLocaleString();
-});
+            <div class="form-section">
+              <h3>Previous Repairs</h3>
+              <table id="previousRepairsTable">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Ticket Number</th>
+                    <th>Model</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Previous repairs will be populated here -->
+                </tbody>
+              </table>
+            </div>
 
-// Auto lookup customer on typing (name or phone)
-document.getElementById("customer_name").addEventListener("input", e => {
-  fetchCustomer(e.target.value);
-});
-document.getElementById("phone_number").addEventListener("input", e => {
-  fetchCustomer(e.target.value);
-});
+          </div>
+        </div>
 
-// SUBMIT FORM
-document.getElementById("repairForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+        <div class="form-section">
+          <div class="card">
+            <h3>Send Ticket</h3>
+            <div class="form-group">
+              <label>Send Ticket via:</label>
+              <div>
+                <input type="checkbox" id="sendEmail" name="sendEmail">
+                <label for="sendEmail">Email</label>
+              </div>
+              <div>
+                <input type="checkbox" id="sendSms" name="sendSms">
+                <label for="sendSms">Send SMS</label>
+              </div>
+              <div>
+                <input type="checkbox" id="sendPrint" name="sendPrint">
+                <label for="sendPrint">Print</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit">Submit</button>
+        </div>
 
-  const payload = {
-    mode: "save", // 🔑 tells Apps Script this is SAVE, not SEARCH
-    datetime: document.getElementById("datetime").value,
-    ticket_number: document.getElementById("ticket_number").value || null,
-    status: document.getElementById("status").value,
-    customer_name: document.getElementById("customer_name").value,
-    phone_number: document.getElementById("phone_number").value,
-    email: document.getElementById("email").value,
-    repair_type: document.getElementById("repair_type").value,
-    model: document.getElementById("model").value,
-    description: document.getElementById("description").value,
-    Price: document.getElementById("Price").value,
-    sendEmail: document.getElementById("sendEmail").checked
-  };
+        <!-- ✅ NEW: Pending Repairs card below Send Ticket -->
+        <div class="form-section">
+          <div class="card">
+            <h3>Pending Repairs</h3>
+            <table id="pendingRepairsTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Ticket</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Repair</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Pending repairs will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "SUCCESS") {
-        // Show ticket number from server
-        document.getElementById("ticket_number").value = data.ticket_number;
-        showToast(`Ticket saved! #${data.ticket_number}`);
+        
+      </form>
+      <p id="responseMessage"></p>
+    </div>
 
-        // ✅ CLEAR FORM AFTER 1 SECOND
-        setTimeout(() => {
-          document.getElementById("repairForm").reset();
-          const tbody = document.querySelector("#previousRepairsTable tbody");
-          if (tbody) tbody.innerHTML = "";
-          document.getElementById("datetime").value = new Date().toLocaleString();
-        }, 1000);
+    <div id="toast" class="toast"></div>
+  </main>
+  <footer id="footer-container"></footer>
 
-      } else {
-        showToast("Error: " + (data.message || "Unknown error"));
+  <script>
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3w5gQOCNRLM1bM2KlMo-5XqVv8cjf4o3JnSd2hFhDq8vLmxPMGwVRRYiTk_eGwN1H/exec";
+
+    // Auto-fill date on page load + load pending repairs
+    document.addEventListener("DOMContentLoaded", () => {
+      const dt = document.getElementById("datetime");
+      if (dt) dt.value = new Date().toLocaleString();
+
+      // Load pending repairs on initial load
+      loadPendingRepairs();
+    });
+
+    // Auto lookup customer on typing (name or phone)
+    document.getElementById("customer_name").addEventListener("input", e => {
+      fetchCustomer(e.target.value);
+    });
+    document.getElementById("phone_number").addEventListener("input", e => {
+      fetchCustomer(e.target.value);
+    });
+
+    // SUBMIT FORM
+    document.getElementById("repairForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const payload = {
+        mode: "save", // 🔑 tells Apps Script this is SAVE, not SEARCH
+        datetime: document.getElementById("datetime").value,
+        ticket_number: document.getElementById("ticket_number").value || null,
+        status: document.getElementById("status").value,
+        customer_name: document.getElementById("customer_name").value,
+        phone_number: document.getElementById("phone_number").value,
+        email: document.getElementById("email").value,
+        repair_type: document.getElementById("repair_type").value,
+        model: document.getElementById("model").value,
+        description: document.getElementById("description").value,
+        Price: document.getElementById("Price").value,
+        sendEmail: document.getElementById("sendEmail").checked
+      };
+
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "SUCCESS") {
+            // Show ticket number from server
+            document.getElementById("ticket_number").value = data.ticket_number;
+            showToast(`Ticket saved! #${data.ticket_number}`);
+
+            // Refresh pending repairs list
+            loadPendingRepairs();
+
+            // ✅ CLEAR FORM AFTER 1 SECOND
+            setTimeout(() => {
+              document.getElementById("repairForm").reset();
+              const tbody = document.querySelector("#previousRepairsTable tbody");
+              if (tbody) tbody.innerHTML = "";
+              document.getElementById("datetime").value = new Date().toLocaleString();
+            }, 1000);
+
+          } else {
+            showToast("Error: " + (data.message || "Unknown error"));
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          showToast("Error sending data: " + err);
+        });
+    });
+
+    // Toast
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      if (!toast) {
+        alert(message);
+        return;
       }
-    })
-    .catch(err => {
-      console.error(err);
-      showToast("Error sending data: " + err);
-    });
-});
-
-// Toast
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  if (!toast) {
-    alert(message);
-    return;
-  }
-  toast.textContent = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3000);
-}
-
-// 🔍 FETCH EXISTING CUSTOMER DATA USING POST (no CORS issues)
-async function fetchCustomer(searchValue) {
-  if (!searchValue || searchValue.length < 2) {
-    console.log("Search ignored (too short):", searchValue);
-    return;
-  }
-
-  console.log("Searching for:", searchValue);
-
-  const payload = {
-    mode: "search",   // tells Apps Script to use search mode
-    query: searchValue
-  };
-
-  try {
-    const res = await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
-
-    let json;
-    try {
-      json = await res.json();
-    } catch (err) {
-      console.error("❌ Failed to parse JSON (backend returned invalid output):", err);
-      console.log("RAW RESPONSE:", await res.text());
-      return;
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
     }
 
-    console.log("Search response:", json);
+    // 🔍 FETCH EXISTING CUSTOMER DATA USING POST (no CORS issues)
+    async function fetchCustomer(searchValue) {
+      if (!searchValue || searchValue.length < 2) {
+        console.log("Search ignored (too short):", searchValue);
+        return;
+      }
 
-    if (json.status !== "SUCCESS") {
-      console.warn("❌ Search failed:", json);
-      return;
+      console.log("Searching for:", searchValue);
+
+      const payload = {
+        mode: "search",   // tells Apps Script to use search mode
+        query: searchValue
+      };
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        let json;
+        try {
+          json = await res.json();
+        } catch (err) {
+          console.error("❌ Failed to parse JSON (backend returned invalid output):", err);
+          console.log("RAW RESPONSE:", await res.text());
+          return;
+        }
+
+        console.log("Search response:", json);
+
+        if (json.status !== "SUCCESS") {
+          console.warn("❌ Search failed:", json);
+          return;
+        }
+
+        if (!json.results || json.results.length === 0) {
+          console.log("ℹ No matching customers found.");
+          return;
+        }
+
+        const rows = json.results;
+        const latest = rows[rows.length - 1]; // pick last entry
+
+        // Columns from Sheet:
+        // 0: serverTimestamp
+        // 1: ticket_number
+        // 2: status
+        // 3: customer_name
+        // 4: phone_number
+        // 5: email
+        // 6: repair_type
+        // 7: model
+        // 8: description
+        // 9: Price
+
+        // Auto-fill customer info
+        document.getElementById("customer_name").value = latest[3] || "";
+        document.getElementById("phone_number").value = latest[4] || "";
+        document.getElementById("email").value = latest[5] || "";
+
+        // Fill "Previous Repairs" table
+        const tbody = document.querySelector("#previousRepairsTable tbody");
+        if (!tbody) return;
+
+        tbody.innerHTML = ""; // clear previous entries
+
+        rows.forEach(r => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${r[0] || ""}</td>
+            <td>${r[1] || ""}</td>
+            <td>${r[7] || ""}</td>
+            <td>${r[8] || ""}</td>
+            <td>${r[9] || ""}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("❌ fetchCustomer() error:", err);
+      }
     }
 
-    if (!json.results || json.results.length === 0) {
-      console.log("ℹ No matching customers found.");
-      return;
+    // ✅ NEW: Load Pending Repairs (status = Open)
+    async function loadPendingRepairs() {
+      const payload = {
+        mode: "pending"
+      };
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+
+        if (json.status !== "SUCCESS" || !json.results) {
+          console.warn("Pending repairs fetch failed:", json);
+          return;
+        }
+
+        const tbody = document.querySelector("#pendingRepairsTable tbody");
+        if (!tbody) return;
+
+        tbody.innerHTML = "";
+
+        const rows = json.results;
+        rows.forEach(r => {
+          const tr = document.createElement("tr");
+          const statusVal = r[2] || "Open";
+
+          tr.innerHTML = `
+            <td>${r[0] || ""}</td>
+            <td>${r[1] || ""}</td>
+            <td>${r[3] || ""}</td>
+            <td>${r[4] || ""}</td>
+            <td>${r[6] || ""}</td>
+            <td>${r[8] || ""}</td>
+            <td>
+              <select onchange="updateStatus('${r[1]}', this.value)">
+                <option value="Open" ${statusVal === 'Open' ? 'selected' : ''}>Open</option>
+                <option value="Closed" ${statusVal === 'Closed' ? 'selected' : ''}>Closed</option>
+              </select>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("Pending repairs error:", err);
+      }
     }
 
-    const rows = json.results;
-    const latest = rows[rows.length - 1]; // pick last entry
+    // ✅ NEW: Update status in Sheet and refresh pending list
+    async function updateStatus(ticketNumber, newStatus) {
+      const payload = {
+        mode: "updateStatus",
+        ticket: ticketNumber,
+        status: newStatus
+      };
 
-    // Columns from Sheet:
-    // 0: serverTimestamp
-    // 1: ticket_number
-    // 2: status
-    // 3: customer_name
-    // 4: phone_number
-    // 5: email
-    // 6: repair_type
-    // 7: model
-    // 8: description
-    // 9: Price
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
 
-    // Auto-fill customer info
-    document.getElementById("customer_name").value = latest[3] || "";
-    document.getElementById("phone_number").value = latest[4] || "";
-    document.getElementById("email").value = latest[5] || "";
+        const data = await res.json();
 
-    // Fill "Previous Repairs" table
-    const tbody = document.querySelector("#previousRepairsTable tbody");
-    if (!tbody) return;
+        if (data.status === "SUCCESS") {
+          showToast(`Status updated to ${newStatus}`);
+          loadPendingRepairs(); // refresh list
+        } else {
+          showToast("Update failed: " + (data.message || "Unknown error"));
+        }
 
-    tbody.innerHTML = ""; // clear previous entries
+      } catch (err) {
+        console.error(err);
+        showToast("Error updating status");
+      }
+    }
+  </script>
 
-    rows.forEach(r => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${r[1] || ""}</td>
-        <td>${r[9] || ""}</td>
-        <td>${r[7] || ""}</td>
-        <td>${r[8] || ""}</td>
-        <td>${r[2] || ""}</td>
-        <td>${r[0] || ""}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-  } catch (err) {
-    console.error("❌ fetchCustomer() error:", err);
-  }
-}
-
-</script>
-
-
-   
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
