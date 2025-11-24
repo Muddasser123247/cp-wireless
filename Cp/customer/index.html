@@ -58,7 +58,7 @@
     }
 
     main {
-      padding: 7rem 1.25rem 3rem;
+      padding: 0rem 1.25rem 3rem;
     }
 
     /* =====================
@@ -72,10 +72,10 @@
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(229, 231, 235, 0.8);
-      padding: 0.75rem 1.25rem;
+      padding: 1.75rem 1.25rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
     }
 
     #header-container {
@@ -116,6 +116,7 @@
       margin: 0 auto;
       background: var(--surface);
       border-radius: 1.5rem;
+      
       padding: 2.25rem 2.5rem 2.5rem;
       box-shadow: var(--shadow-soft);
       border: 1px solid rgba(148, 163, 184, 0.3);
@@ -463,9 +464,7 @@
 <body>
   <header>
     <div id="header-container"></div>
-    <a href="index.html" class="home-button">
-      <i class="fa fa-home"></i> Home
-    </a>
+    
   </header>
 
   <main>
@@ -592,6 +591,7 @@
                   <th>Phone</th>
                   <th>Repair</th>
                   <th>Description</th>
+                  <th>Price</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -612,7 +612,7 @@
   <footer id="footer-container"></footer>
 
   <script>
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3w5gQOCNRLM1bM2KlMo-5XqVv8cjf4o3JnSd2hFhDq8vLmxPMGwVRRYiTk_eGwN1H/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxErte4e884Us0G1RJS-Vs1sK4KeiByu6_ZEVFmFbToCiEYmMvtl4RwUMeb_jBzMLgj/exec";
 
     // Auto-fill date on page load + load pending repairs
     document.addEventListener("DOMContentLoaded", () => {
@@ -764,11 +764,11 @@
         rows.forEach(r => {
           const tr = document.createElement("tr");
           tr.innerHTML = `
-            <td>${r[0] || ""}</td>
+            <td>${formatDate(r[0])}</td>
             <td>${r[1] || ""}</td>
             <td>${r[7] || ""}</td>
             <td>${r[8] || ""}</td>
-            <td>${r[9] || ""}</td>
+            <td>$${r[9] || ""}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -806,19 +806,33 @@
         rows.forEach(r => {
           const tr = document.createElement("tr");
           const statusVal = r[2] || "Open";
+          // apply color while building the row
+        if (statusVal === "Open") tr.style.background = "#e0f2fe";           // blue
+        if (statusVal === "Closed") tr.style.background = "#dcfce7";         // green
+        if (statusVal === "Pending Parts") tr.style.background = "#fef3c7";  // orange
 
           tr.innerHTML = `
-            <td>${r[0] || ""}</td>
+            <td>${formatDate(r[0])}</td>
             <td>${r[1] || ""}</td>
             <td>${r[3] || ""}</td>
             <td>${r[4] || ""}</td>
             <td>${r[6] || ""}</td>
+            <td>$${r[9] || ""}</td>
             <td>${r[8] || ""}</td>
             <td>
-              <select onchange="updateStatus('${r[1]}', this.value)">
-                <option value="Open" ${statusVal === 'Open' ? 'selected' : ''}>Open</option>
-                <option value="Closed" ${statusVal === 'Closed' ? 'selected' : ''}>Closed</option>
-              </select>
+                <select 
+                    onchange="updateStatus('${r[1]}', this.value)"
+                    style="background:${
+                    statusVal === 'Closed' ? '#d1fae5' :
+                    statusVal === 'Pending Parts' ? '#fde68a' :
+                    '#bfdbfe'
+                    };
+                    color:#000; padding:4px; border-radius:6px;"
+                >
+                    <option value="Open" ${statusVal === 'Open' ? 'selected' : ''}>Open</option>
+                    <option value="Closed" ${statusVal === 'Closed' ? 'selected' : ''}>Closed</option>
+                    <option value="Pending Parts" ${statusVal === 'Pending Parts' ? 'selected' : ''}>Pending Parts</option>
+                </select>
             </td>
           `;
           tbody.appendChild(tr);
@@ -830,7 +844,7 @@
     }
 
     // ✅ NEW: Update status in Sheet and refresh pending list
-    async function updateStatus(ticketNumber, newStatus) {
+    /*async function updateStatus(ticketNumber, newStatus) {
       const payload = {
         mode: "updateStatus",
         ticket: ticketNumber,
@@ -856,7 +870,49 @@
         console.error(err);
         showToast("Error updating status");
       }
+    }*/
+
+    function formatDate(isoString) {
+  if (!isoString) return "";
+  const d = new Date(isoString);
+  return d.toLocaleString("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+
+async function updateStatus(ticketNumber, newStatus) {
+  const payload = {
+    mode: "updateStatus",
+    ticket_number: ticketNumber,
+    status: newStatus
+  };
+
+  try {
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+
+    const json = await res.json();
+    if (json.status === "SUCCESS") {
+      showToast(`Status updated to ${newStatus}`);
+      loadPendingRepairs(); // refresh table
+    } else {
+      console.error("Update failed:", json);
+      showToast("Error updating status");
     }
+
+  } catch (err) {
+    console.error("Status update error:", err);
+    showToast("Network error updating status");
+  }
+}
+
   </script>
 
 </body>
