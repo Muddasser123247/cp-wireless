@@ -554,6 +554,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+
+document.getElementById("customer_name").addEventListener("input", e => {
+    fetchCustomer(e.target.value);
+});
+
+document.getElementById("phone_number").addEventListener("input", e => {
+    fetchCustomer(e.target.value);
+});
+
+
 // Handle form submit
 document.getElementById("repairForm").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -620,6 +630,59 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
   setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+if (data.status === "SUCCESS") {
+    ticketNumberInput.value = data.ticket_number;
+    showToast(`Ticket saved! #${data.ticket_number}`);
+
+    // Reset form after 1 second
+    setTimeout(() => {
+        document.getElementById("repairForm").reset();
+        document.getElementById("previousRepairsTable").querySelector("tbody").innerHTML = "";
+        document.getElementById("datetime").value = new Date().toLocaleString();
+    }, 1000);
+}
+
+
+async function fetchCustomer(searchValue) {
+    if (!searchValue) return;
+
+    const url = GOOGLE_SCRIPT_URL + "?query=" + encodeURIComponent(searchValue);
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.length === 0) return; // no customer found
+
+        const latest = data[data.length - 1]; // last repair entry
+
+        // Fill customer details
+        document.getElementById("customer_name").value = latest[3];
+        document.getElementById("phone_number").value = latest[4];
+        document.getElementById("email").value = latest[5];
+
+        // Fill previous repairs table
+        const tbody = document.querySelector("#previousRepairsTable tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(row => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${row[1]}</td>
+                <td>${row[9]}</td>
+                <td>${row[7]}</td>
+                <td>${row[8]}</td>
+                <td>${row[2]}</td>
+                <td>${row[0]}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+    } catch (err) {
+        console.error("Fetch error:", err);
+    }
 }
 
 
