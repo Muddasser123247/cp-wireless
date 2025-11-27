@@ -12,9 +12,14 @@ if (yearEl) {
 // Placeholder slides (replace via backend later)
 let promoSlidesData = [
   {
-    title: "Latest Smartphone Arrivals",
+    title: "Upgrade Today with the Latest Apple Phone",
     subtitle: "Check out popular models with clear condition labels and fair pricing.",
     image: "images/1.jpg"
+  },
+   {
+    title: "Explore Our Latest Android Smartphone Collection",
+    subtitle: "Check out popular models with clear condition labels and fair pricing.",
+    image: "images/16.jpg"
   },
   
   {
@@ -246,3 +251,4 @@ if (contactForm) {
 
 // Initialize product slider transform
 updateProductSlider();
+
