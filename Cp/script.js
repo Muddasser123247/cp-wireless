@@ -19,7 +19,7 @@ let promoSlidesData = [
    {
     title: "Explore Our Latest Android Smartphone Collection",
     subtitle: "Check out popular models with clear condition labels and fair pricing.",
-    image: "images/16.jpg"
+    image: "images/16.JPG"
   },
   
   {
@@ -251,4 +251,5 @@ if (contactForm) {
 
 // Initialize product slider transform
 updateProductSlider();
+
 
