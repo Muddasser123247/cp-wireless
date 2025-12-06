@@ -460,8 +460,11 @@ nav a:hover::after {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--bg-soft);
-  height: 230px;
+  min-height: 180px;      /* safe minimum */
+  height: auto !important; /* allow full text */
+  padding-bottom: 2.2rem; /* space for dots */
 }
+
 
 .slide-track {
   display: flex;
@@ -470,14 +473,21 @@ nav a:hover::after {
   transition: transform .6s ease-in-out;
 }
 
+/* Fix small CP Wireless offer slider */
 .slide {
   flex: 0 0 100%;
   padding: 1rem;
   display: grid;
-  grid-template-columns: minmax(0,1.1fr) minmax(0,0.9fr);
+  grid-template-columns: 1fr !important;   /* ← Make full width */
   gap: .75rem;
-  align-items: center;
+  align-items: flex-start;
 }
+.slide-text p {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
 
 .slide-text h3 {
   font-size: 1rem;
@@ -1038,4 +1048,328 @@ footer {
     white-space: nowrap;
     flex-shrink: 0;
   }
+}
+@media (max-width: 600px) {
+  .slider {
+    height: auto !important;
+    min-height: 200px;
+  }
+
+  .slide {
+    grid-template-columns: 1fr !important;
+  }
+
+  .slide-text p {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+
+
+
+/* services.css
+   Uses the same design tokens as the home page and is scoped
+   so it won't affect index.html
+*/
+
+/* === BUTTONS (service page) === */
+.services-page .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.1s ease;
+  text-align: center;
+}
+
+/* Use same blue accent as home page */
+.services-page .btn-primary {
+  background-color: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+}
+
+.services-page .btn-primary:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.services-page .btn-outline {
+  background-color: transparent;
+  color: var(--text-main);
+  border-color: var(--border);
+}
+
+.services-page .btn-outline:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.services-page .btn-link {
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  font-weight: 600;
+  color: var(--accent);
+  background: transparent;
+}
+
+.services-page .btn-link:hover {
+  text-decoration: underline;
+}
+
+/* === HERO SECTION (service page hero) === */
+/* Use a different class name so we don't touch home .hero */
+.services-page .service-hero {
+  padding: 3rem 0 2.5rem;
+  background: linear-gradient(135deg, #f9fafb 0%, #eef2ff 40%, #ffffff 100%);
+}
+
+.services-page .service-hero-inner {
+  width: 100%;
+  max-width: 1540px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.services-page .service-hero-text h1 {
+  font-size: clamp(1.9rem, 2.8vw, 2.4rem);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.services-page .service-hero-text p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  max-width: 36rem;
+}
+
+.services-page .service-hero-bullets {
+  margin-bottom: 1.3rem;
+  list-style: none;
+  padding: 0;
+}
+
+.services-page .service-hero-bullets li {
+  position: relative;
+  padding-left: 1.3rem;
+  font-size: 0.95rem;
+  color: #374151;
+  margin-bottom: 0.35rem;
+}
+
+.services-page .service-hero-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background-color: var(--text-main);
+}
+
+.services-page .service-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.services-page .service-hero-image {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+}
+
+/* === SERVICES GRID === */
+.services-page .services-section {
+  padding: 2.5rem 0;
+}
+
+/* re-use your .section + .section-header base from home;
+   only adjust container + grid here */
+.services-page .services-section .container {
+  width: 100%;
+  max-width: 1600px;      /* use much more of the screen */
+  margin: 0 auto;
+  padding: 0 2.5rem;      /* nice padding left/right */
+}
+
+
+.services-page .services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem;
+}
+
+/* Card look matches your theme: radius, border, subtle shadow */
+.services-page .services-grid .service-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+  gap: 1.25rem;
+  padding: 1.3rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--border);
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03);
+}
+
+.services-page .service-image img {
+  border-radius: 1rem;
+  height: 100%;
+  object-fit: cover;
+}
+
+.services-page .service-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.services-page .service-content p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.services-page .service-list {
+  margin-bottom: 0.6rem;
+  list-style: none;
+  padding: 0;
+}
+
+.services-page .service-list li {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.services-page .service-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #9ca3af;
+}
+
+/* === OPTIONAL: LOCATIONS SECTION ON SERVICE PAGE === */
+/* Only if you re-use that block from your template */
+.services-page .locations-section {
+  padding: 2.5rem 0 3rem;
+  background-color: #f9fafb;
+}
+
+.services-page .locations-inner {
+  width: 100%;
+  max-width: 1540px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.services-page .locations-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.services-page .locations-section p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.services-page .locations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.services-page .location-card {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background-color: #ffffff;
+  font-size: 0.92rem;
+}
+
+.services-page .location-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+}
+
+.services-page .contact-cta {
+  padding: 1.4rem;
+  border-radius: 1.25rem;
+  background: #111827;
+  color: #f9fafb;
+}
+
+.services-page .contact-cta h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.services-page .contact-cta p {
+  font-size: 0.93rem;
+  margin-bottom: 0.8rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 960px) {
+  .services-page .service-hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .services-page .service-hero-image {
+    max-width: 420px;
+    margin: 1rem auto 0;
+  }
+
+  .services-page .services-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .services-page .services-grid .service-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .services-page .locations-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .services-page .locations-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .services-page .service-hero {
+    padding-top: 2.25rem;
+  }
+}
+.locations-inner {
+  align-items: end !important;   /* Move right-side box down */
 }
